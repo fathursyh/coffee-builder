@@ -10,6 +10,7 @@ export default defineConfig({
       plugins: [tailwindcss()],
       appType: 'custom',
   },
-
+  trailingSlash: 'ignore',
   integrations: [react()],
+  security: {checkOrigin: true},
 });
