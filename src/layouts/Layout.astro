@@ -1,0 +1,29 @@
+---
+import WebNavbar from '../components/astro/navigations/WebNavbar.astro';
+import '../styles/global.css';
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/coffee.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Coffee Builder</title>
+		<script src="/js/load.js" is:inline></script>
+	</head>
+	<body>
+		<WebNavbar />
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		font-family: "Montserrat";
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

@@ -1,0 +1,29 @@
+---
+import ThemeToggler from "../../react/ThemeToggler";
+---
+
+<nav class="w-full bg-base-100 shadow z-40">
+  <div class="navbar mx-auto max-w-screen-xl">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl font-poet" href="/">Coffee Builder</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal md:gap-4 px-1 text-base">
+        <li><a href="/">Home</a></li>
+        <!-- <li>
+          <details>
+            <summary>Parent</summary>
+            <ul class="bg-base-100 rounded-t-none p-2">
+              <li><a>Link 1</a></li>
+              <li><a>Link 2</a></li>
+            </ul>
+          </details>
+        </li> -->
+        <li><a href="/login">Login</a></li>
+        <button class="btn btn-sm btn-ghost">
+          <ThemeToggler client:idle />
+        </button>
+      </ul>
+    </div>
+  </div>
+</nav>
