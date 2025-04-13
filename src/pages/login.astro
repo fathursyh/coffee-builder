@@ -1,5 +1,8 @@
 ---
+import { db } from "../database/mongodb";
 import Layout from "../layouts/Layout.astro";
+const user = db.mg.connection.collection('users').find();
+console.log(user);
 ---
 
 <Layout>
