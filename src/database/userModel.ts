@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-class Users {
+export default class UserModel {
     private userSchema = new mongoose.Schema({
         id: mongoose.SchemaTypes.ObjectId,
         email: String,
@@ -23,6 +23,3 @@ class Users {
         return await this.user.findById(id);
     }
 }
-
-const users = new Users();
-export default users;
