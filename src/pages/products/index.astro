@@ -4,13 +4,16 @@ import Layout from "../../layouts/Layout.astro";
 import ProductCard from "../../components/react/composables/ProductCard";
 
 const {data} = await Astro.callAction(actions.product.getAllProducts, {});
-
 ---
 
 <Layout>
-    {
-        data?.map((product)=>(
-            <ProductCard props={product} client:load />
-        ))
-    }
+    <main class="w-full min-h-screen bg-base-200 md:p-12 p-4">
+        <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 gap-4 place-items-center mx-auto">
+        {
+            data?.map((product)=>(
+                <ProductCard title={product.title!} stock={product.stock!} description={product.description!} id={product._id}  client:only />
+            ))
+        }
+        </div>
+    </main>
 </Layout>

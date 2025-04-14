@@ -1,26 +1,19 @@
-import type { Schema } from "mongoose"
-import { useEffect } from "react"
+import type { Types } from "mongoose"
 
-// type ProductProps = {
-//     _id: Schema.Types.ObjectId,
-//     title: String,
-//     stock: Number,
-//     description: String,
-//     __v: Number,
-//     createdAt: Date,
-//     updatedAt: Date,
-// }
-export default function ProductCard(props : any) {
-    useEffect(() => {
-        console.log(props.props['_doc']);
-    }, [])
+type ProductProps = {
+    id: Types.ObjectId,
+    title: string,
+    stock: number,
+    description: string,
+}
+export default function ProductCard({id, title, stock, description} : ProductProps) {
     return (
-        <div className="card w-96 bg-base-100 card-xs shadow-sm">
+        <div className="card min-h-40 w-96 bg-base-100 card-xs shadow-sm p-2">
             <div className="card-body">
-                {/* <h2 className="card-title">{props.title}</h2> */}
-                {/* <p>{props.description}</p> */}
+                <a href={`/products/detail/${id}`} className="card-title">{title}</a>
+                <p className="line-clamp-3">{description}</p>
                 <div className="justify-end card-actions">
-                    <button className="btn btn-primary">Buy Now</button>
+                    <button className="btn" disabled={stock === 0 && true}>Buy Now</button>
                 </div>
             </div>
         </div>
