@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export default class UserModel {
     private userSchema = new mongoose.Schema({
@@ -6,6 +6,9 @@ export default class UserModel {
         email: String,
         password: String,
         fullName: String,
+        friends: [{
+            id: {type: Schema.Types.ObjectId, ref: 'User'}
+        }]
     });
     public user;
     

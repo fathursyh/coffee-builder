@@ -6,7 +6,7 @@ export const user = {
     getAllUser: defineAction({
         handler: async(_, context) => {
             if (context.request.method !== 'GET') {
-                throw new ActionError({code: 'FORBIDDEN', message: 'Go away!'});
+                throw new ActionError({code: 'FORBIDDEN', message: 'Request forbidden.'});
             }
             return User.getAllUser();
         }

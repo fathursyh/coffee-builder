@@ -1,9 +1,16 @@
 ---
+import { actions } from "astro:actions";
 import Layout from "../../layouts/Layout.astro";
+import ProductCard from "../../components/react/composables/ProductCard";
 
+const {data} = await Astro.callAction(actions.product.getAllProducts, {});
 
 ---
 
 <Layout>
-    <h1>products</h1>
+    {
+        data?.map((product)=>(
+            <ProductCard props={product} client:load />
+        ))
+    }
 </Layout>
