@@ -11,6 +11,12 @@ export const product = {
             return await Product.coffee.find().skip(offset === 1 ? 0 : ((offset - 1) * 12)).limit(12);
         }
     }),
+    getPageCount: defineAction({
+        handler: async() => {
+            const count = await Product.coffee.find().estimatedDocumentCount();
+            return Math.ceil(count/12); 
+        }
+    }),
     addProduct: defineAction({
         input: z.object({
             title: z.string(),
