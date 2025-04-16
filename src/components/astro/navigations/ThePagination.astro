@@ -1,0 +1,21 @@
+---
+const {page} = Astro.props;
+---
+
+<div class="join justify-center w-full">
+    <button class="join-item btn" disabled={page===1} id="prev">«</button>
+    <p class="join-item btn">{page}</p>
+    <button class="join-item btn" id="next">»</button>
+</div>
+
+<script is:inline define:vars={{ page }}>
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+
+    next?.addEventListener('click', ()=>{
+      window.location.assign(`/products/${page+1}`);
+    });
+    prev?.addEventListener('click', ()=>{
+      window.location.assign(`/products/${page-1}`);
+    });
+</script>

@@ -5,8 +5,10 @@ import { z } from "astro:content";
 const Product = new ProductModel();
 export const product = {
     getAllProducts: defineAction({
-        handler: async() => {
-            return (await Product.coffee.find().limit(20));
+        input: z.object({page: z.string()}),
+        handler: async(input) => {
+            const offset = parseInt(input.page);
+            return await Product.coffee.find().skip(offset === 1 ? 0 : ((offset - 1) * 12)).limit(12);
         }
     }),
     addProduct: defineAction({

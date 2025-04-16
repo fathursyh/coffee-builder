@@ -13,4 +13,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [react()],
   security: {checkOrigin: true},
+  redirects: {
+    '/products': '/products/1'
+  }
 });
