@@ -17,6 +17,16 @@ export const product = {
             return Math.ceil(count/12); 
         }
     }),
+    findProducts: defineAction({
+        input: z.object({
+            search: z.string()
+        }),
+        handler: async(input) => {
+            console.log(input.search); 
+            const query = await Product.coffee.find({ $text: { $search: `\"${input.search}\"` } });
+            return query;
+        }
+    }),
     addProduct: defineAction({
         input: z.object({
             title: z.string(),

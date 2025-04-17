@@ -1,4 +1,5 @@
 ---
+import SearchBar from "src/components/react/SearchBar"
 import ThemeToggler from "src/components/react/ThemeToggler"
 ---
 
@@ -9,6 +10,7 @@ import ThemeToggler from "src/components/react/ThemeToggler"
       <a class="btn btn-ghost text-lg font-poet md:hidden" href="/">CB</a>
     </div>
     <div class="flex-none">
+      <SearchBar client:idle />
       <ul class="menu menu-horizontal md:gap-4 px-1 text-base">
         <li><a href="/">Home</a></li>
         <!-- <li>
