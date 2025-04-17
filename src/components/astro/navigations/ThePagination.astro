@@ -2,7 +2,7 @@
 const {page} = Astro.props;
 ---
 
-<div class="join justify-center w-full">
+<div class="join justify-center w-full mt-auto">
     <button class="join-item btn" disabled={ page === 1 } id="prev">«</button>
     <p class="join-item p-2 px-6" id="current">{ page }</p> 
     <button class="join-item btn" id="next">»</button>

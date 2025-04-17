@@ -1,0 +1,16 @@
+---
+import ProductCard from "src/components/react/composables/ProductCard";
+import { actions } from "astro:actions";
+const {page} = Astro.props;
+
+const {data} = await Astro.callAction(actions.product.getAllProducts, {page: page || "1"});
+
+---
+
+<div class="grid min-h-[78vh] xl:grid-cols-3 md:grid-cols-2 gap-x-4 gap-y-8 items-start mx-auto max-w-screen-xl mb-6">
+    {
+        data?.map((product)=>(
+            <ProductCard id_item={product._id.toString()} title={product.title!} stock={product.stock!} description={product.description!} client:idle />
+        ))
+    }
+</div>
