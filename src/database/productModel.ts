@@ -13,8 +13,8 @@ export default class ProductModel {
         // @ts-ignore
         // delete model if exist
         delete mongoose.connection.models['Products'];
+        this.coffeeSchema.index({title: 'text'});
         this.coffee = mongoose.model('Products', this.coffeeSchema);
-        this.coffee.createSearchIndex({name: 'text', type: 'search', definition: {mappings: {fields: 'title'}} });
     }
 
 }
