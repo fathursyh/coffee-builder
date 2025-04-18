@@ -24,23 +24,28 @@ export const product = {
         input: z.object({
             search: z.string(),
         }),
-        handler: async (input) => {
-            const query = await Product.coffee.aggregate([
-                {
-                    $search: {
-                        index: 'text',
-                        text: {
-                            query: input.search,
-                            path: "title",
-                            matchCriteria: "any"
-                        }
+        handler: async(input) => {
+                const data = await Product.coffee.aggregate([
+                    {
+                        $search: {
+                            index: 'text',
+                            text: {
+                                query: input.search,
+                                path: "title",
+                                matchCriteria: "any"
+                            }
+                        },
                     },
-                },
-                {
-                    $limit: 10,
-                },
-            ]);
-            console.log(query);
+                    {
+                        $limit: 10,
+                    },
+                ]);
+                const formattedData = data.map(item => ({
+                    ...item,
+                    _id: item._id.toString()
+                }));
+                return formattedData; 
+            
         },
     }),
     addProduct: defineAction({
