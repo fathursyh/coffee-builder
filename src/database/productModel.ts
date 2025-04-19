@@ -6,6 +6,7 @@ export default class ProductModel {
         title: String,
         stock: Number,
         description: String,
+        price: Number,
     }, {timestamps: true});
  public coffee;
     
@@ -13,7 +14,6 @@ export default class ProductModel {
         // @ts-ignore
         // delete model if exist
         delete mongoose.connection.models['Products'];
-        this.coffeeSchema.index({title: 'text'});
         this.coffee = mongoose.model('Products', this.coffeeSchema);
     }
 

@@ -53,6 +53,7 @@ export const product = {
             title: z.string(),
             stock: z.number(),
             description: z.string(),
+            price: z.number()
         }),
         handler: async (input) => {
             const { errors } = await Product.coffee.create(input);
@@ -68,6 +69,7 @@ export const product = {
                 title: z.string(),
                 stock: z.number(),
                 description: z.string(),
+                price: z.number()
             })
         ),
         handler: async (input) => {
