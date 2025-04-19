@@ -42,9 +42,15 @@ export default function SearchBar() {
                     }}
                     placeholder="Search products"
                     className="input input-bordered w-24 md:w-52 xl:w-80"
+                    onKeyDown={(e) => {
+                        if(e.key === "Escape") {
+                            setSearch('');
+                            setResult([]);
+                        }
+                    }}
                 />
-                <button type="submit" className="btn btn-square bg-base-content rounded-l-none absolute right-0">
-                    <svg className="w-4 h-4 dark:text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <button type="submit" className="btn btn-square bg-accent dark:bg-secondary rounded-l-none absolute right-0">
+                    <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                     </svg>
                 </button>
