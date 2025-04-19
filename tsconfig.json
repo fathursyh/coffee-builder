@@ -9,6 +9,7 @@
   ],
   "compilerOptions": {
     "strict": true,
+    "baseUrl": ".",
     "alwaysStrict": true,
     "strictNullChecks": true,
     "allowJs": true,
@@ -17,5 +18,10 @@
     "strictFunctionTypes": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react"
-  }
+  },
+  "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    }
 }

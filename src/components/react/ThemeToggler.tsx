@@ -23,7 +23,7 @@ export default function ThemeToggler() {
     }
     return (
         <label className="swap swap-rotate">
-            <input type="checkbox" className="theme-controller" value="coffee" checked={isDark} onChange={handleClick} />
+            <input type="checkbox" id="themeToggler" className="theme-controller" value="coffee" checked={isDark} onChange={handleClick} />
 
             {/* sun icon */}
             <svg

@@ -1,0 +1,9 @@
+---
+import Layout from "src/layouts/Layout.astro";
+
+export const prerender = false;
+const {id} = Astro.params;
+---
+<Layout>
+    <p>{id}</p>
+</Layout>

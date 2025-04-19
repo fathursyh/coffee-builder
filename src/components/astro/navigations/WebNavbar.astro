@@ -1,29 +1,25 @@
 ---
-import ThemeToggler from "../../react/ThemeToggler";
+import SearchBar from "src/components/react/SearchBar";
+import ThemeToggler from "src/components/react/ThemeToggler";
 ---
 
 <nav class="w-full bg-base-100 shadow z-40">
-  <div class="navbar mx-auto max-w-screen-xl">
-    <div class="flex-1">
-      <a class="btn btn-ghost text-xl font-poet" href="/">Coffee Builder</a>
+    <div class="navbar justify-between mx-auto max-w-screen-xl">
+        {/* logo */}
+        <div>
+            <a class="btn btn-ghost text-xl font-poet hidden md:inline-block" href="/">Coffee Builder</a>
+            <a class="btn btn-ghost text-lg font-poet md:hidden" href="/">CB</a>
+        </div>
+        {/* search product */}
+        <SearchBar client:idle />
+        {/* nav menu */}
+        <ul class="menu menu-horizontal md:gap-4 px-1 text-base">
+            <li><a href="/">Home</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/login">Login</a></li>
+            <button class="btn btn-sm btn-ghost">
+                <ThemeToggler client:idle />
+            </button>
+        </ul>
     </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal md:gap-4 px-1 text-base">
-        <li><a href="/">Home</a></li>
-        <!-- <li>
-          <details>
-            <summary>Parent</summary>
-            <ul class="bg-base-100 rounded-t-none p-2">
-              <li><a>Link 1</a></li>
-              <li><a>Link 2</a></li>
-            </ul>
-          </details>
-        </li> -->
-        <li><a href="/login">Login</a></li>
-        <button class="btn btn-sm btn-ghost">
-          <ThemeToggler client:idle />
-        </button>
-      </ul>
-    </div>
-  </div>
 </nav>

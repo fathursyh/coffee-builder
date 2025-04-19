@@ -1,6 +1,8 @@
 ---
 import WebNavbar from '../components/astro/navigations/WebNavbar.astro';
+import { db } from '../database/mongodb';
 import '../styles/global.css';
+db.open();
 ---
 <!doctype html>
 <html lang="en">
