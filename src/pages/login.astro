@@ -1,9 +1,6 @@
 ---
 import Layout from "src/layouts/Layout.astro"
 import { actions, isInputError } from 'astro:actions';
-import { undefined } from "astro:schema";
-if (await Astro.session?.has('user')) return Astro.redirect('/');
-
 const res = Astro.getActionResult(actions.user.loginUser);
 if (res?.data) {
     const url = await Astro.session?.get('last-page');
@@ -12,6 +9,8 @@ if (res?.data) {
     }
     return Astro.redirect('/');
 }
+if (await Astro.session?.has('user')) return Astro.redirect('/');
+
 ---
 
 <Layout>
