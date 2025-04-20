@@ -22,7 +22,24 @@ export default class UserModel {
     public async getAllUser() {
         return await this.user.find();
     }
-    public async getUserById(id: string) {
-        return await this.user.findById(id);
+
+    public async signIn(email: string, hashPassword: string) {
+        const user = this.user.findOne({email: email, password: hashPassword}).exec();
+        console.log(user);
+        if(!user) {
+            return false;
+        } 
+        return user;
     }
+    
+    public async signUp(email: string, password: string, fullName: string) {
+        try {
+            const user = await this.user.insertOne({email: email, fullName: fullName, password: password, friends: []});
+            return user;
+        } catch(e) {
+            console.log(e);
+            return false;
+        }
+    }
+
 }

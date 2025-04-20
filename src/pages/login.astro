@@ -1,19 +1,22 @@
 ---
+export const prerender = false;
 import Layout from "src/layouts/Layout.astro"
+import { actions } from 'astro:actions';
+
 ---
 
 <Layout>
     <div class="w-full xl:h-[91vh] 2xl:h-[92.9vh] h-screen grid place-items-center auth-bg" >
         <div class="bg-base-200 w-fit min-h-80 rounded-lg p-8 flex flex-col items-center justify-center shadow">
             <h1 class="text-xl font-bold">Login</h1>
-            <form action="" method="POST">
+            <form method="post" action={actions.user.loginUser}>
                 <fieldset class="fieldset mb-2">
                     <legend class="fieldset-legend ps-1">Email</legend>
-                    <input type="email" class="input input-md w-80" placeholder="email@gmail.com" />
+                    <input type="email" name="email" class="input input-md w-80" placeholder="email@gmail.com" />
                 </fieldset>
                 <fieldset class="fieldset mb-2">
                     <legend class="fieldset-legend ps-1">Password</legend>
-                    <input type="password" class="input input-md w-80" placeholder="password" />
+                    <input type="password" name="password" class="input input-md w-80" placeholder="password" />
                 </fieldset>
                 <button type="submit" class="btn btn-secondary w-full mt-6 py-6">Login</button>
                 <div class="mt-4 text-center text-sm">Don't have an account? <a href="register" class="hover:link text-blue-500">Signup</a></div>
