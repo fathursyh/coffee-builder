@@ -1,5 +1,6 @@
 ---
 export const prerender = false;
+import { isInputError } from "astro:actions";
 import { actions } from "astro:actions";
 import Layout from "src/layouts/Layout.astro"
 const res = Astro.getActionResult(actions.user.registerUser);
@@ -10,24 +11,38 @@ if (res?.data) {
 
 <Layout>
     <div class="w-full xl:h-[91vh] 2xl:h-[92.9vh]  h-screen grid place-items-center auth-bg overflow-hidden" >
-        <div class="bg-base-200 w-fit min-h-80 rounded-lg p-8 flex flex-col items-center justify-center shadow">
+        <div class="bg-base-200 md:w-[28rem] min-h-80 md:rounded-lg p-8 flex flex-col items-center justify-center shadow">
             <h1 class="text-xl font-bold">Register</h1>
             <form action={actions.user.registerUser} method="POST">
                 <fieldset class="fieldset mb-2">
                     <legend class="fieldset-legend ps-1">Email</legend>
-                    <input type="email" name="email" class="input input-md w-80" placeholder="email@gmail.com" />
+                    <input type="email" name="email" id="email" class="input input-md w-80" placeholder="email@gmail.com" /
+
+                    >
+                    {isInputError(res?.error) && (
+                        <p class="text-xs text-error ps-2">{res.error.fields.email?.join(', ')}</p>
+                      )}
                 </fieldset>
                 <fieldset class="fieldset mb-2">
                     <legend class="fieldset-legend ps-1">Full Name</legend>
-                    <input type="text" name="fullName" class="input input-md w-80" placeholder="Michael Scott" />
+                    <input type="text" name="fullName" id="fullName" class="input input-md w-80" placeholder="Michael Scott" />
+                    {isInputError(res?.error) && (
+                        <p class="text-xs text-error ps-2">{res.error.fields.fullName?.join(', ')}</p>
+                      )}
                 </fieldset>
                 <fieldset class="fieldset mb-2">
                     <legend class="fieldset-legend ps-1">Password</legend>
-                    <input type="password" name="password" class="input input-md w-80" placeholder="password" />
+                    <input type="password" name="password" id="password" class="input input-md w-80" placeholder="password" />
+                    {isInputError(res?.error) && (
+                        <p class="text-xs text-error ps-2">{res.error.fields.password?.join(', ')}</p>
+                      )}
                 </fieldset>
                 <fieldset class="fieldset mb-2">
                     <legend class="fieldset-legend ps-1">Confirm Password</legend>
-                    <input type="password" name="confirmPassword" class="input input-md w-80" placeholder="confirm password" />
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="input input-md w-80" placeholder="confirm password" />
+                    {isInputError(res?.error) && (
+                        <p class="text-xs text-error ps-2">{res.error.fields.confirmPassword?.join(', ')}</p>
+                      )}
                 </fieldset>
                 <button type="submit" class="btn btn-secondary w-full mt-6 py-6">Register</button>
                 <div class="mt-4 text-center text-sm">Have an account? <a href="login" class="hover:link text-blue-500">Login</a></div>
@@ -35,3 +50,26 @@ if (res?.data) {
         </div>
     </div>
 </Layout>
+
+<script is:inline>
+    const email = document.getElementById('email');
+    const fullName = document.getElementById('fullName');
+    const lastInput = {
+        email: sessionStorage.getItem('email'),
+        fullName: sessionStorage.getItem('fullName')
+    }
+
+    if (window.location.search === '?_action=user.registerUser') {
+        email.value = lastInput.email;
+        fullName.value = lastInput.fullName;    
+    } else {
+        sessionStorage.clear();
+    }
+
+    email.onchange = () => {
+        sessionStorage.setItem('email', email.value);
+    }
+    fullName.onchange = () => {
+        sessionStorage.setItem('fullName', fullName.value);
+    }
+</script>

@@ -1,4 +1,4 @@
-import { ActionError, defineAction } from "astro:actions";
+import { defineAction } from "astro:actions";
 import ProductModel from "../database/productModel";
 import { z } from "astro:content";
 
@@ -46,21 +46,6 @@ export const product = {
                 }));
                 return formattedData; 
             
-        },
-    }),
-    addProduct: defineAction({
-        input: z.object({
-            title: z.string(),
-            stock: z.number(),
-            description: z.string(),
-            price: z.number()
-        }),
-        handler: async (input) => {
-            const { errors } = await Product.coffee.create(input);
-            if (errors) {
-                throw new ActionError({ code: "BAD_REQUEST" });
-            }
-            return input;
         },
     }),
     addBulkProduct: defineAction({

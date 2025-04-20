@@ -30,10 +30,10 @@ export const user = {
     registerUser: defineAction({
         accept: 'form',
         input: z.object({
-            fullName: z.string().trim().min(1),
-            email: z.string().email().min(8),
-            password: z.string().min(8),
-            confirmPassword: z.string().min(8)
+            fullName: z.string({message: 'Full name is required.'}),
+            email: z.string({message: 'Email is required.'}).email(),
+            password: z.string({message: 'Password is required.'}).min(8, 'Password must be at least 8 characters'),
+            confirmPassword: z.string({message: 'Confirm password is required.'}).min(8, 'Confirm password must be at least 8 characters')
         }).refine((input)=> {
             if (input.password === input.confirmPassword) return true;
         }, {
@@ -44,9 +44,11 @@ export const user = {
             const hashed = await bcrypt.hash(input.password, saltRounds);
             try {
                 const user = await User.signUp(input.email, hashed, input.fullName);
-                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, friends: []}
+                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, cart: []};
                 await context.session?.regenerate();
                 context.session?.set('user', userData);
+                context.session?.set('alert', {status: 'success', text: 'Registration successfull!'});
+
             } catch(e : any) {
                 if (e.code === 11000) {
                     throw new ActionError({code: 'CONFLICT', message: 'Email already exist'});
@@ -55,6 +57,12 @@ export const user = {
                 throw new ActionError({code: 'INTERNAL_SERVER_ERROR', message: e.message});
             }
             return true;
+        }
+    }),
+    logoutUser: defineAction({
+        handler: (_, context) => {
+            context.session?.destroy();
+            context.session?.set('alert', {status: 'no', text: 'Logout successful!'});
         }
     }),
     

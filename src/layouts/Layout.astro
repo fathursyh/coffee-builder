@@ -1,8 +1,11 @@
 ---
+import CustomAlert from 'src/components/react/composables/CustomAlert';
 import WebNavbar from '../components/astro/navigations/WebNavbar.astro';
 import { db } from '../database/mongodb';
 import '../styles/global.css';
 db.open();
+
+const IsAlert = await Astro.session?.get('alert');
 ---
 <!doctype html>
 <html lang="en">
@@ -17,6 +20,10 @@ db.open();
 	<body>
 		<WebNavbar />
 		<slot />
+		{
+			IsAlert &&
+			<CustomAlert client:load {...IsAlert} />
+		}
 	</body>
 </html>
 

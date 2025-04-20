@@ -10,8 +10,8 @@ export default class UserModel {
         },
         password: String,
         fullName: String,
-        friends: [{
-            id: { type: Schema.Types.ObjectId, ref: 'User' }
+        cart: [{
+            id: { type: Schema.Types.ObjectId, ref: 'Products' }
         }]
     });
     public user;
@@ -29,7 +29,6 @@ export default class UserModel {
 
     public async signIn(email: string, hashPassword: string) {
         const user = this.user.findOne({ email: email, password: hashPassword }).exec();
-        console.log(user);
         if (!user) {
             return false;
         }
