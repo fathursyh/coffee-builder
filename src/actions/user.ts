@@ -44,7 +44,7 @@ export const user = {
     registerUser: defineAction({
         accept: 'form',
         input: z.object({
-            fullName: z.string({message: 'Full name is required.'}),
+            fullName: z.string({message: 'Full name is required.'}).trim(),
             email: z.string({message: 'Email is required.'}).email(),
             password: z.string({message: 'Password is required.'}).min(8, 'Password must be at least 8 characters'),
             confirmPassword: z.string({message: 'Confirm password is required.'}).min(8, 'Confirm password must be at least 8 characters')
