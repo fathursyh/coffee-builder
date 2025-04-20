@@ -18,13 +18,27 @@ export const user = {
     loginUser: defineAction({
         accept: 'form',
         input: z.object({
-            email: z.string().email().min(2),
-            password: z.string().min(8)
+            email: z.string({message: 'Email is required.'}).email().min(2),
+            password: z.string({message: 'Password is required'}).min(8)
         }),
         handler: async(input, context) => {
-            const hashed = await bcrypt.hash(input.password, saltRounds);
-            const user = await User.signIn(input.email, hashed);
-            // todo write in session
+            try {
+                const user = await User.signIn(input.email);
+                if (user === null) {
+                    throw new ActionError({code: 'NOT_FOUND'});
+                }
+                if (!bcrypt.compareSync(input.password, user?.password!)) {
+                    throw new ActionError({code: 'BAD_REQUEST'});
+                }
+                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, cart: user.cart};
+                await context.session?.regenerate();
+                context.session?.set('user', userData);
+                context.session?.set('alert', {status: 'success', text: 'You have successfully logged in!'});
+                return true;
+            } catch (e: any) {
+                context.session?.set('alert', {status: 'no', text: 'Invalid credentials. Please, try again.'});
+                throw new ActionError({code: e.code});
+            }
         }
     }),
     registerUser: defineAction({
@@ -62,7 +76,7 @@ export const user = {
     logoutUser: defineAction({
         handler: (_, context) => {
             context.session?.destroy();
-            context.session?.set('alert', {status: 'no', text: 'Logout successful!'});
+            context.session?.set('alert', {status: 'success', text: 'Logout successful!'});
         }
     }),
     

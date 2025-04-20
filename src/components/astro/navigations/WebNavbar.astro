@@ -16,7 +16,7 @@ const user = await Astro.session?.get("user");
     {/* search product */}
     <SearchBar client:idle />
     {/* nav menu */}
-    <ul class="menu menu-horizontal md:gap-4 px-1 text-base">
+    <ul class="menu menu-horizontal md:gap-4 px-1 text-sm z-40">
       <li><a href="/">Home</a></li>
       <li><a href="/products">Products</a></li>
       {

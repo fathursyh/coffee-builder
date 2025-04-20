@@ -36,6 +36,7 @@ export default function SearchBar() {
             <form className="relative" onSubmit={searchProduct}>
                 <input
                     type="text"
+                    id="search-bar"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);

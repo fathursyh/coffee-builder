@@ -27,12 +27,8 @@ export default class UserModel {
         return await this.user.find();
     }
 
-    public async signIn(email: string, hashPassword: string) {
-        const user = this.user.findOne({ email: email, password: hashPassword }).exec();
-        if (!user) {
-            return false;
-        }
-        return user;
+    public async signIn(email: string) {
+        return this.user.findOne({ email: email });
     }
 
     public async signUp(email: string, password: string, fullName: string) {
