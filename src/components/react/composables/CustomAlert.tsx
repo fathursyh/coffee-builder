@@ -8,10 +8,10 @@ type AlertProps = {
 export default function CustomAlert({status, text}: AlertProps) {
     const [visible, setVisible] = useState(false);
     useEffect(() => {
+        actions.clearAlert();
         setVisible(true);
         setTimeout(() => {
             setVisible(false);
-            actions.clearAlert();
         }, 3000);
     }, [])
     return (

@@ -4,6 +4,6 @@ import { actions } from "astro:actions";
 const {data} = await Astro.callAction(actions.cart.GetPopulatedCart, {});
 ---
 
-<section class="max-w-screen-xl min-h-[92dvh] mx-auto grid md:grid-cols-12 p-4 gap-2">
+<section class="max-w-screen-xl min-h-[92dvh] mx-auto grid overflow-x-hidden md:grid-cols-12 md:p-4 md:gap-2">
     <CheckoutPage client:load data={data!} />
 </section>
