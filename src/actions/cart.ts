@@ -2,9 +2,17 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:content";
 import { Types } from "mongoose";
 import UserModel from "src/database/userModel";
+import type { ProductInterface } from "src/models/ProductInterface";
 
 const User = new UserModel();
 export const cart = {
+    GetPopulatedCart: defineAction({
+        handler: async(_, context) => {
+            const user = await context.session?.get('user');
+            const cart = await User.user.findById(user._id).populate('cart').then(user => user?.cart);
+            return cart?.map((item : ProductInterface | any) => ({_id: item?._id.toString(), title: item.title, stock: item.stock, price: item.price, description: item.description}));
+        }
+    }),
     getCartData: defineAction({
         handler: async(_, context) => {
             const user = await context.session?.get('user');

@@ -17,7 +17,7 @@ function Indicator() {
 
 export default function FloatingCart() {
     return (
-        <a href="/cart" className="btn btn-xl btn-circle btn-accent fixed right-10 bottom-10 hover:scale-105">
+        <a href="/cart" className="btn btn-xl btn-circle btn-accent fixed right-12 bottom-8 hover:scale-110 transition-all duration-300">
             <Indicator />
             <svg className="w-10 h-10 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path

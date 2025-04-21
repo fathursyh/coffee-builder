@@ -1,9 +1,10 @@
 ---
 import CartSection from "src/components/astro/cart/CartSection.astro";
 import Layout from "src/layouts/Layout.astro";
-
 ---
 
 <Layout>
-    <CartSection />
+    <main style="background-image: url(/src/assets/detail.png);" class="bg-black/50 bg-blend-multiply">
+        <CartSection server:defer />
+    </main>
 </Layout>
