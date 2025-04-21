@@ -32,7 +32,7 @@ function TableRow({ data: { title, price, stock }, index, getTotalItem }: { data
                 >
                     &#11164;
                 </button>
-                <span className="bg-gray-50 dark:bg-gray-800 rounded-sm px-6">{qty}</span>
+                <p className="bg-gray-50 dark:bg-gray-800 rounded-sm btn btn-ghost btn-xs w-8">{qty}</p>
                 <button
                     className={`btn btn-circle btn-ghost btn-xs ${qty === stock && "invisible"}`}
                     onClick={() => {
