@@ -3,6 +3,7 @@ import CustomAlert from 'src/components/react/composables/CustomAlert';
 import WebNavbar from '../components/astro/navigations/WebNavbar.astro';
 import { db } from '../database/mongodb';
 import '../styles/global.css';
+import FloatingCart from 'src/components/react/FloatingCart';
 db.open();
 
 const IsAlert = await Astro.session?.get('alert');
@@ -23,6 +24,10 @@ const IsAlert = await Astro.session?.get('alert');
 		{
 			IsAlert &&
 			<CustomAlert client:load {...IsAlert} />
+		}
+		{
+			await Astro.session?.has('user') &&
+			<FloatingCart client:load />
 		}
 	</body>
 </html>

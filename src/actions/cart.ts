@@ -2,6 +2,11 @@ import { defineAction } from "astro:actions";
 import { z } from "astro:content";
 
 export const cart = {
+    getCartData: defineAction({
+        handler: async(_, context) => {
+            return await context.session?.get('cart');
+        }
+    }),
     addItem: defineAction({
         input: z.object({
             id: z.string()
@@ -13,6 +18,9 @@ export const cart = {
                 context.session?.set('last-page', context.request.headers.get('referer'));
                 return false;
             }
+            const cart = await context.session?.get('cart');
+            cart.push(input.id);
+            context.session?.set('cart', cart);
             return true;
         }
     }),

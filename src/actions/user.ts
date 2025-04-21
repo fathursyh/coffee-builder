@@ -30,9 +30,10 @@ export const user = {
                 if (!bcrypt.compareSync(input.password, user?.password!)) {
                     throw new ActionError({code: 'BAD_REQUEST'});
                 }
-                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, cart: user.cart};
+                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName};
                 await context.session?.regenerate();
                 context.session?.set('user', userData);
+                context.session?.set('cart', user.cart);
                 context.session?.set('alert', {status: 'success', text: 'You have successfully logged in!'});
                 return true;
             } catch (e: any) {
@@ -58,9 +59,10 @@ export const user = {
             const hashed = await bcrypt.hash(input.password, saltRounds);
             try {
                 const user = await User.signUp(input.email, hashed, input.fullName);
-                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, cart: []};
+                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName};
                 await context.session?.regenerate();
                 context.session?.set('user', userData);
+                context.session?.set('cart', []);
                 context.session?.set('alert', {status: 'success', text: 'Registration successfull!'});
 
             } catch(e : any) {
