@@ -11,7 +11,7 @@ export default class UserModel {
         password: String,
         fullName: String,
         cart: [{
-            id: { type: Schema.Types.ObjectId, ref: 'Products' }
+            type: Schema.Types.ObjectId, ref: 'Products'
         }]
     });
     public user;

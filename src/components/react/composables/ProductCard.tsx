@@ -16,6 +16,9 @@ export default function ProductCard({id_item, title, stock, description, price} 
         if (!data) {
             window.location.href = '/login';
         }
+        else {
+            window.location.reload();
+        }
     }
     return (
         <div className="card min-h-40 w-96 bg-base-100 card-xs shadow-sm p-2">
@@ -24,7 +27,7 @@ export default function ProductCard({id_item, title, stock, description, price} 
                 <p className="line-clamp-3">{description}</p>
                 <div className="justify-end card-actions">
                     <p className="text-lg font-medium">{Utility.currency(price)}</p>
-                    <button className="btn hover:scale-105 duration-200 transition-transform" disabled={stock === 0 && true} onClick={buyItem}>Buy Now</button>
+                    <button className="btn hover:scale-105 duration-200 transition-transform buy-now" disabled={stock === 0 && true} onClick={buyItem}>Add to cart</button>
                 </div>
             </div>
         </div>

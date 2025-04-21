@@ -30,13 +30,13 @@ export const user = {
                 if (!bcrypt.compareSync(input.password, user?.password!)) {
                     throw new ActionError({code: 'BAD_REQUEST'});
                 }
-                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName};
+                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, cart: user.cart.map(item=>item._id.toString())};
                 await context.session?.regenerate();
                 context.session?.set('user', userData);
-                context.session?.set('cart', user.cart);
                 context.session?.set('alert', {status: 'success', text: 'You have successfully logged in!'});
                 return true;
             } catch (e: any) {
+                console.log(e);
                 context.session?.set('alert', {status: 'no', text: 'Invalid credentials. Please, try again.'});
                 throw new ActionError({code: e.code});
             }
@@ -59,10 +59,9 @@ export const user = {
             const hashed = await bcrypt.hash(input.password, saltRounds);
             try {
                 const user = await User.signUp(input.email, hashed, input.fullName);
-                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName};
+                const userData = {_id: user._id.toString(), email: user.email, fullName: user.fullName, cart: []};
                 await context.session?.regenerate();
                 context.session?.set('user', userData);
-                context.session?.set('cart', []);
                 context.session?.set('alert', {status: 'success', text: 'Registration successfull!'});
 
             } catch(e : any) {

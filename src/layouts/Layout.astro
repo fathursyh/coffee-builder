@@ -5,7 +5,6 @@ import { db } from '../database/mongodb';
 import '../styles/global.css';
 import FloatingCart from 'src/components/react/FloatingCart';
 db.open();
-
 const IsAlert = await Astro.session?.get('alert');
 ---
 <!doctype html>
@@ -26,8 +25,8 @@ const IsAlert = await Astro.session?.get('alert');
 			<CustomAlert client:load {...IsAlert} />
 		}
 		{
-			await Astro.session?.has('user') &&
-			<FloatingCart client:load />
+			await Astro.session?.has('user') && Astro.originPathname !== '/cart' ?
+			<FloatingCart client:only="react" /> : null
 		}
 	</body>
 </html>

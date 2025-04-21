@@ -5,7 +5,7 @@ function Indicator() {
     const [cart, setCart] = useState(0);
     useEffect(() => {
         actions.cart.getCartData({}).then(res=>{
-            setCart(res.data.length);
+            setCart(res.data.length);   
         });
     }, []);
     return (

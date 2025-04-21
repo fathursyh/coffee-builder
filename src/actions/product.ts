@@ -4,6 +4,11 @@ import { z } from "astro:content";
 
 const Product = new ProductModel();
 export const product = {
+    getProductById: defineAction({
+        handler: async(id: string) => {
+            return await Product.coffee.findById(id);
+        }
+    }),
     getAllProducts: defineAction({
         input: z.object({ page: z.string() }),
         handler: async (input) => {
