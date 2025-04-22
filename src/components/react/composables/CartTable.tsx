@@ -1,7 +1,8 @@
+import { actions } from "astro:actions";
 import { useCallback, useEffect, useState } from "react";
 import type { ProductInterface } from "src/models/ProductInterface";
 
-function TableRow({ data: { title, price, stock }, index, getTotalItem }: { data: ProductInterface; index: number; getTotalItem: Function }) {
+function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: { data: ProductInterface; index: number; getTotalItem: Function }) {
     const [qty, setQty] = useState(1);
     const increaseQty = useCallback(() => {
         getTotalItem(price * qty);
@@ -10,6 +11,14 @@ function TableRow({ data: { title, price, stock }, index, getTotalItem }: { data
     const decreaseQty = useCallback(() => {
         getTotalItem(price * -qty);
         setQty((value) => (value = value - 1));
+    }, []);
+
+    const removeItem = useCallback(async(id: string) => {
+        const confirmation = confirm('Remove this product from your cart?');
+        if (!confirmation) return;
+        const {error} = await actions.cart.removeItem(id);
+        if (error) console.log(error);
+        window.location.reload();
     }, []);
 
     useEffect(() => {
@@ -32,7 +41,9 @@ function TableRow({ data: { title, price, stock }, index, getTotalItem }: { data
                 >
                     &#11164;
                 </button>
-                <p className="bg-gray-50 dark:bg-gray-800 rounded-sm btn btn-ghost btn-xs w-8">{qty}</p>
+                <button className="bg-gray-50 dark:bg-gray-800 rounded-sm btn btn-ghost btn-xs w-8" onClick={() => {
+                    removeItem(_id.toString());
+                }}>{qty}</button>
                 <button
                     className={`btn btn-circle btn-ghost btn-xs ${qty === stock && "invisible"}`}
                     onClick={() => {
@@ -54,6 +65,13 @@ export default function CartTable(props: { data: ProductInterface[]; setTotal: F
     const getTotalItem = (total: number) => {
         props.setTotal((value: number) => value + total);
     };
+    if (props.data.length < 1) {
+        return (
+            <div className="w-full min-h-[38.2rem] grid place-items-center">
+                <h3>Cart is empty.</h3>
+            </div>
+        )
+    }
     return (
         <div className="overflow-x-auto md:p-6 p-2">
             <table className="table md:table-md table-sm table-fixed">

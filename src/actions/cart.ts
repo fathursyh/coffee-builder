@@ -1,4 +1,4 @@
-import { defineAction } from "astro:actions";
+import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:content";
 import { Types } from "mongoose";
 import UserModel from "src/database/userModel";
@@ -40,6 +40,18 @@ export const cart = {
             await User.user.findByIdAndUpdate(user._id, {$push: {cart: new Types.ObjectId(input.id)}});
             context.session?.set('alert', {status: 'success', text: 'Item has been added to your cart!'});
             return true;
+        }
+    }),
+    removeItem: defineAction({
+        handler: async (input, context) => {
+            const user = await context.session?.get('user');
+            user.cart.splice(user.cart.findIndex((item : string) => item === input), 1);
+            try {
+                await User.user.updateOne({_id: user._id}, {$pull: {cart: {$eq: input}}});
+                context.session?.set('alert', {status: 'success', text: 'Item has been removed from your cart!'});
+            } catch (e) {
+                throw new ActionError({code: 'INTERNAL_SERVER_ERROR'});
+            }
         }
     }),
 };

@@ -2,8 +2,9 @@
 import CheckoutPage from "src/components/react/CheckoutPage";
 import { actions } from "astro:actions";
 const {data} = await Astro.callAction(actions.cart.GetPopulatedCart, {});
+const user = await Astro.session?.get('user');
 ---
 
 <section class="max-w-screen-xl min-h-[92dvh] mx-auto grid overflow-x-hidden md:grid-cols-12 md:p-4 md:gap-2">
-    <CheckoutPage client:load data={data!} />
+    <CheckoutPage client:load data={data!} user={user} />
 </section>
