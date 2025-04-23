@@ -3,10 +3,34 @@ import CartTable from "src/components/react/composables/CartTable";
 import type { ProductInterface } from "src/models/ProductInterface";
 import type UserInterface from "src/models/UserInterface";
 import CheckoutInfo from "./composables/CheckoutInfo";
+import { actions } from "astro:actions";
 
 export default function CheckoutPage({ data, user }: { data: ProductInterface[], user: UserInterface }) {
     const [total, setTotal] = useState(0);
     const [address, setAddress] = useState('');
+    const checkout = async() => {
+        if (address === '') return;
+       const {data} = await actions.cart.checkoutCart({
+            transaction_details: {
+                order_id: `CB-001-013`,
+                gross_amount: total + (total * 0.04)
+            }, 
+            customer_details: {
+                email: user.email,
+                first_name: user.fullName.split(' ')[0],
+                last_name: user.fullName.split(' ')[1],
+                billing_address: {
+                    address: address
+                }
+            }
+        });
+        try {
+            window.snap.pay(data);
+        } catch (e) {
+            console.log(e)
+            alert('Terjadi kesalahan.');
+        }
+    }   
     return (
         <>
             {/* left section */}
@@ -31,7 +55,7 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                 <CheckoutInfo title="Subtotal :">Rp. {total.toLocaleString('id-ID')}</CheckoutInfo>
                 <CheckoutInfo title="Tax 4%">Rp. {(total * 0.04).toLocaleString('id-ID')}</CheckoutInfo>
                 <CheckoutInfo title="Total :" isBold={true} >Rp. {(total + (total * 0.04)).toLocaleString('id-ID')}</CheckoutInfo>
-                <button className="btn btn-lg py-8 btn-secondary dark:btn-primary mt-auto">Checkout</button>
+                <button className="btn btn-lg py-8 btn-secondary dark:btn-primary mt-auto" onClick={checkout}>Checkout</button>
             </div>
         </>
     )

@@ -1,42 +1,45 @@
 ---
-import CustomAlert from 'src/components/react/composables/CustomAlert';
-import WebNavbar from '../components/astro/navigations/WebNavbar.astro';
-import { db } from '../database/mongodb';
-import '../styles/global.css';
-import FloatingCart from 'src/components/react/FloatingCart';
+import CustomAlert from "src/components/react/composables/CustomAlert";
+import WebNavbar from "../components/astro/navigations/WebNavbar.astro";
+import { db } from "../database/mongodb";
+import "../styles/global.css";
+import FloatingCart from "src/components/react/FloatingCart";
 db.open();
-const IsAlert = await Astro.session?.get('alert');
+const IsAlert = await Astro.session?.get("alert");
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/coffee.png" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Coffee Builder</title>
-		<script src="/js/load.js" is:inline></script>
-	</head>
-	<body>
-		<WebNavbar />
-		<slot />
-		{
-			IsAlert &&
-			<CustomAlert client:load {...IsAlert} />
-		}
-		{
-			await Astro.session?.has('user') && Astro.originPathname !== '/cart' ?
-			<FloatingCart client:only="react" /> : null
-		}
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/coffee.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Coffee Builder</title>
+    <script src="/js/load.js" is:inline></script>
+    <script
+      is:inline
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-y8J5Es9qjuguWtE7"></script>
+  </head>
+  <body>
+    <WebNavbar />
+    <slot />
+    {IsAlert && <CustomAlert client:load {...IsAlert} />}
+    {
+      (await Astro.session?.has("user")) && Astro.originPathname !== "/cart" ? (
+        <FloatingCart client:only="react" />
+      ) : null
+    }
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		font-family: "Montserrat";
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    font-family: "Montserrat";
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>

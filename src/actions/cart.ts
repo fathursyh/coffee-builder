@@ -2,6 +2,8 @@ import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:content";
 import { Types } from "mongoose";
 import UserModel from "src/database/userModel";
+import { midtrans } from "src/lib/midtrans";
+import type { PaymentInterface } from "src/models/PaymentInterface";
 import type { ProductInterface } from "src/models/ProductInterface";
 
 const User = new UserModel();
@@ -51,6 +53,16 @@ export const cart = {
                 context.session?.set('alert', {status: 'success', text: 'Item has been removed from your cart!'});
             } catch (e) {
                 throw new ActionError({code: 'INTERNAL_SERVER_ERROR'});
+            }
+        }
+    }),
+    checkoutCart: defineAction({
+        input: z.custom<PaymentInterface>(),
+        handler: async(input) => {
+            try {
+                return await midtrans.createTransaction(input);
+            } catch (e) {
+                console.log(e);
             }
         }
     }),
