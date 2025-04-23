@@ -3,15 +3,19 @@ import mongoose, { Schema } from "mongoose";
 export default class UserModel {
     private userSchema = new mongoose.Schema({
         id: mongoose.SchemaTypes.ObjectId,
-        email: String,
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         password: String,
         fullName: String,
-        friends: [{
-            id: {type: Schema.Types.ObjectId, ref: 'User'}
+        cart: [{
+            type: Schema.Types.ObjectId, ref: 'Products'
         }]
     });
     public user;
-    
+
     constructor() {
         // @ts-ignore
         // delete model if exist
@@ -22,7 +26,13 @@ export default class UserModel {
     public async getAllUser() {
         return await this.user.find();
     }
-    public async getUserById(id: string) {
-        return await this.user.findById(id);
+
+    public async signIn(email: string) {
+        return this.user.findOne({ email: email });
     }
+
+    public async signUp(email: string, password: string, fullName: string) {
+        return await this.user.insertOne({ email: email, fullName: fullName, password: password, friends: [] });
+    }
+
 }

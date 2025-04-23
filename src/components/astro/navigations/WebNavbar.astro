@@ -1,25 +1,48 @@
 ---
 import SearchBar from "src/components/react/SearchBar";
 import ThemeToggler from "src/components/react/ThemeToggler";
+const user = await Astro.session?.get("user");
 ---
 
 <nav class="w-full bg-base-100 shadow z-40">
-    <div class="navbar justify-between mx-auto max-w-screen-xl">
-        {/* logo */}
-        <div>
-            <a class="btn btn-ghost text-xl font-poet hidden md:inline-block" href="/">Coffee Builder</a>
-            <a class="btn btn-ghost text-lg font-poet md:hidden" href="/">CB</a>
-        </div>
-        {/* search product */}
-        <SearchBar client:idle />
-        {/* nav menu */}
-        <ul class="menu menu-horizontal md:gap-4 px-1 text-base">
-            <li><a href="/">Home</a></li>
-            <li><a href="/products">Products</a></li>
-            <li><a href="/login">Login</a></li>
-            <button class="btn btn-sm btn-ghost">
-                <ThemeToggler client:idle />
-            </button>
-        </ul>
+  <div class="navbar justify-between mx-auto max-w-screen-xl">
+    {/* logo */}
+    <div>
+      <a class="btn btn-ghost text-xl font-poet hidden md:inline-block" href="/"
+        >Coffee Builder</a
+      >
+      <a class="btn btn-ghost text-lg font-poet md:hidden" href="/">CB</a>
     </div>
+    {/* search product */}
+    <SearchBar client:idle />
+    {/* nav menu */}
+    <ul class="menu menu-horizontal md:gap-4 px-1 text-sm z-40">
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">Products</a></li>
+      {
+        user ? (
+          <li>
+            <details>
+              <summary>{user.fullName}</summary>
+              <ul class="bg-base-100 rounded-t-none w-36 p-2">
+                <li>
+                  <a href="/profile">Profile</a>
+                </li>
+                <li>
+                  <a href="/logout">Logout</a>
+                </li>
+              </ul>
+            </details>
+          </li>
+        ) : (
+          <li>
+            <a href="/login">Login</a>
+          </li>
+        )
+      }
+      <button class="btn btn-sm btn-ghost">
+        <ThemeToggler client:idle />
+      </button>
+    </ul>
+  </div>
 </nav>

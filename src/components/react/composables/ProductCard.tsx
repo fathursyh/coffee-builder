@@ -1,3 +1,4 @@
+import { actions } from "astro:actions";
 import { Utility } from "src/script/utility"
 type ProductProps = {
     id_item: string,
@@ -7,6 +8,18 @@ type ProductProps = {
     price: number
 }
 export default function ProductCard({id_item, title, stock, description, price} : ProductProps) {
+    const buyItem = async() => {
+        if (stock < 0) {
+            return;
+        }
+        const {data} = await actions.cart.addItem({id: id_item});
+        if (!data) {
+            window.location.href = '/login';
+        }
+        else {
+            window.location.reload();
+        }
+    }
     return (
         <div className="card min-h-40 w-96 bg-base-100 card-xs shadow-sm p-2">
             <div className="card-body">
@@ -14,7 +27,7 @@ export default function ProductCard({id_item, title, stock, description, price} 
                 <p className="line-clamp-3">{description}</p>
                 <div className="justify-end card-actions">
                     <p className="text-lg font-medium">{Utility.currency(price)}</p>
-                    <button className="btn hover:scale-105 duration-200 transition-transform" disabled={stock === 0 && true} onClick={() =>{console.log(id_item)}}>Buy Now</button>
+                    <button className="btn hover:scale-105 duration-200 transition-transform buy-now" disabled={stock === 0 && true} onClick={buyItem}>Add to cart</button>
                 </div>
             </div>
         </div>

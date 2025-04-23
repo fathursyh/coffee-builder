@@ -1,6 +1,11 @@
 ---
 import HomeHero from "src/components/astro/home/HomeHero.astro"
 import Layout from "src/layouts/Layout.astro"
+
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+Astro.response.headers.set(
+  "Netlify-CDN-Cache-Control", "public, durable, s-maxage=300, stale-while-revalidate=604800"
+);
 ---
 
 <Layout>

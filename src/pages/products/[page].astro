@@ -1,9 +1,12 @@
 ---
-export const prerender = false;
 import Layout from "src/layouts/Layout.astro";
 import ThePagination from "src/components/astro/navigations/ThePagination.astro";
 import TheProducts from "src/components/astro/products/TheProducts.astro";
 const {page} = Astro.params;
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+Astro.response.headers.set(
+  "Netlify-CDN-Cache-Control", "public, durable, s-maxage=300, stale-while-revalidate=604800"
+);
 ---
 
 <Layout>

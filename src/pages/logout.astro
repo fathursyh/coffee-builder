@@ -1,0 +1,5 @@
+---
+import { actions } from "astro:actions"
+Astro.callAction(actions.user.logoutUser, {});
+return Astro.redirect('/');
+---
