@@ -4,7 +4,7 @@ export default function CheckoutInfo(props : {title: string, isBold?: boolean, c
     return (
         <article className={`flex justify-between ${props.isBold && 'font-semibold'}`}>
             <span>{props.title}</span>
-            <span className="text-lg">{props.children}</span>
+            <span>{props.children}</span>
         </article>
     )
 };

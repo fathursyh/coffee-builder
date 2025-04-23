@@ -41,7 +41,7 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: {
                 >
                     &#11164;
                 </button>
-                <button className="bg-gray-50 dark:bg-gray-800 rounded-sm btn btn-ghost btn-xs w-8" onClick={() => {
+                <button className="bg-gray-50 dark:bg-gray-800 rounded-sm btn btn-ghost btn-xs w-8 hover:bg-error" onClick={() => {
                     removeItem(_id.toString());
                 }}>{qty}</button>
                 <button
