@@ -1,4 +1,5 @@
 ---
+import PurchaseHistory from "src/components/react/PurchaseHistory";
 import SearchBar from "src/components/react/SearchBar";
 import ThemeToggler from "src/components/react/ThemeToggler";
 const user = await Astro.session?.get("user");
@@ -25,9 +26,7 @@ const user = await Astro.session?.get("user");
             <details>
               <summary>{user.fullName}</summary>
               <ul class="bg-base-100 rounded-t-none w-36 p-2">
-                <li>
-                  <a href="/profile">Profile</a>
-                </li>
+                <PurchaseHistory client:only="react" />
                 <li>
                   <a href="/logout">Logout</a>
                 </li>
