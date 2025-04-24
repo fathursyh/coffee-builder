@@ -1,8 +1,9 @@
 import { actions } from "astro:actions";
-import { useCallback, useEffect, useState } from "react";
+import type { Types } from "mongoose";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ProductInterface } from "src/models/ProductInterface";
 
-function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: { data: ProductInterface; index: number; getTotalItem: Function }) {
+function TableRow({ data: { _id, title, price, stock }, index, getTotalItem, changeQuantity }: { data: ProductInterface; index: number; getTotalItem: Function, changeQuantity: Function }) {
     const [qty, setQty] = useState(1);
     const increaseQty = useCallback(() => {
         getTotalItem(price * qty);
@@ -13,10 +14,10 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: {
         setQty((value) => (value = value - 1));
     }, []);
 
-    const removeItem = useCallback(async(id: string) => {
+    const removeItem = useCallback(async (id: string) => {
         const confirmation = confirm('Remove this product from your cart?');
         if (!confirmation) return;
-        const {error} = await actions.cart.removeItem(id);
+        const { error } = await actions.cart.removeItem(id);
         if (error) console.log(error);
         window.location.reload();
     }, []);
@@ -37,6 +38,7 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: {
                             return;
                         }
                         decreaseQty();
+                        changeQuantity(_id, (qty - 1));
                     }}
                 >
                     &#11164;
@@ -49,6 +51,7 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: {
                     onClick={() => {
                         if (qty < stock) {
                             increaseQty();
+                            changeQuantity(_id, (qty + 1));
                         }
                     }}
                 >
@@ -62,6 +65,18 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem }: {
 }
 
 export default function CartTable(props: { data: ProductInterface[]; setTotal: Function, total: number }) {
+    const itemDetails = useRef<{ id: string | Types.ObjectId, price: number, quantity: number }[]>(props.data.map(item => ({ id: item._id, price: item.price, quantity: 1, name: item.title })));
+    const changeQuantity = (id: string, value: number) => {
+        itemDetails.current.find(item => {
+            if (item.id === id) {
+                item.quantity = value;
+            }
+        });
+    }
+    useEffect(() => {
+        sessionStorage.setItem('cart', JSON.stringify(itemDetails.current));
+    }, [props.total]);
+
     const getTotalItem = (total: number) => {
         props.setTotal((value: number) => value + total);
     };
@@ -86,7 +101,7 @@ export default function CartTable(props: { data: ProductInterface[]; setTotal: F
                 </thead>
                 <tbody>
                     {props.data.map((row, index) => (
-                        <TableRow key={row._id.toString()} data={row} index={index} getTotalItem={getTotalItem} />
+                        <TableRow key={row._id.toString()} data={row} index={index} getTotalItem={getTotalItem} changeQuantity={changeQuantity} />
                     ))}
                     <tr className="font-semibold">
                         <th></th>

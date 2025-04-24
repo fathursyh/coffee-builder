@@ -21,7 +21,7 @@ export default function ProductCard({id_item, title, stock, description, price} 
         }
     }
     return (
-        <div className="card min-h-40 w-96 bg-base-100 card-xs shadow-sm p-2">
+        <div className="card min-h-40 md:w-96 bg-base-100 card-xs shadow-sm p-2">
             <div className="card-body">
                 <a href={`/products/detail/${id_item}`} className="card-title">{title}</a>
                 <p className="line-clamp-3">{description}</p>

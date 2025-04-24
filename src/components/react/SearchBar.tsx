@@ -7,7 +7,7 @@ function ResultList({ result }: { result: Array<ProductInterface> }) {
         return (
             <ul className="z-30 absolute -translate-y-0.5 w-full h-fit max-h-52 overflow-y-auto bg-base-100 border border-neutral/50 rounded-b list">
                 {result.map((item) => (
-                    <li className="list-row hover:bg-base-200/50 rounded-none" key={item._id}>
+                    <li className="list-row hover:bg-base-200/50 rounded-none" key={item._id.toString()}>
                         <a href={`/products/detail/${item._id}`}>{item.title}</a>
                     </li>
                 ))}
@@ -42,7 +42,7 @@ export default function SearchBar() {
                         setSearch(e.target.value);
                     }}
                     placeholder="Search products"
-                    className="input input-bordered w-24 md:w-52 xl:w-80"
+                    className="input input-bordered w-52 xl:w-80"
                     onKeyDown={(e) => {
                         if(e.key === "Escape") {
                             setSearch('');

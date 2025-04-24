@@ -15,9 +15,10 @@ export const transaction = {
         input: z.object({
             id: z.string(),
             total: z.number(),
+            itemDetails: z.array(z.any()),
         }),
         handler: async(input) => {
-            const res = await Transaction.newTransaction(input.id, input.total);
+            const res = await Transaction.newTransaction(input.id, input.total, input.itemDetails);
             if (!res) throw new ActionError({code: 'BAD_REQUEST'});
             return res._id.toString();
         }

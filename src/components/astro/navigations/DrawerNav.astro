@@ -1,0 +1,37 @@
+---
+import PurchaseHistory from "src/components/react/PurchaseHistory";
+
+const {user} = Astro.props;
+---
+
+<div class="z-50 md:hidden">
+    <div class="drawer drawer-end">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+          <!-- Page content here -->
+          <label for="my-drawer" class="btn btn-link btn-circle drawer-button">
+            <svg viewBox="0 0 100 80" width="20" height="20">
+                <rect width="100" height="10" rx="10" class="dark:fill-white"></rect>
+                <rect y="30" width="100" height="10" rx="10" class="dark:fill-white"></rect>
+                <rect y="60" width="100" height="10" rx="10" class="dark:fill-white"></rect>
+              </svg>
+          </label>
+        </div>
+        <div class="drawer-side">
+          <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+          <ul class="menu bg-base-200 text-base-content min-h-full w-52 p-4 justify-center items-center text-lg">
+            <li><a href="/">Home</a></li>
+            <li><a href="/products">Products</a></li>
+            {
+                !user ?
+                <li><a href="/login">Login</a></li>
+                
+                :
+                <PurchaseHistory client:only="react" />
+                <li><a href="/logout">Logout</a></li>
+                
+            }
+          </ul>
+        </div>
+    </div>
+</div>

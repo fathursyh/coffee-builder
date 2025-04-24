@@ -6,6 +6,11 @@ export interface PaymentInterface {
     credit_card?: {
         secure: boolean
     },
+    item_details: {
+        id: string,
+        price: number,
+        quantity: number,
+    }[],
     customer_details: {
         first_name: string,
         last_name: string,

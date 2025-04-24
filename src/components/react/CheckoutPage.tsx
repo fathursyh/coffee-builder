@@ -8,6 +8,7 @@ import { actions } from "astro:actions";
 export default function CheckoutPage({ data, user }: { data: ProductInterface[], user: UserInterface }) {
     const [total, setTotal] = useState(0);
     const [address, setAddress] = useState('');
+
     const checkout = async() => {
         if (total === 0) return;
         if (address === '') {
@@ -15,8 +16,9 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
             document.getElementById('address')?.focus();
             return;
         }
-
-        const transactionId = (await actions.transaction.createTransaction({id: user._id, total: total + (total * 0.04)})).data;
+        
+        const itemDetails = JSON.parse(sessionStorage.getItem('cart')!);
+        const transactionId = (await actions.transaction.createTransaction({id: user._id, total: total + (total * 0.04), itemDetails: itemDetails})).data;
         const {data} = await actions.cart.checkoutCart({
             transaction_details: {
                 order_id: `CB-${transactionId}`,
@@ -29,7 +31,13 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                 billing_address: {
                     address: address
                 }
-            }
+            },
+            item_details: [...itemDetails, {
+                id: 'tax',
+                price: (total * 0.04),
+                quantity : 1,
+                name: 'tax'
+            }]
         });
         try {
             window.snap.pay(data, {
