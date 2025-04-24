@@ -17,8 +17,8 @@ export const cart = {
     }),
     getCartData: defineAction({
         handler: async(_, context) => {
-            const user = await context.session?.get('user');
-            return user.cart;
+            return await context.session?.get('user').then(item => item.cart);
+            
         }
     }),
     addItem: defineAction({
@@ -64,6 +64,17 @@ export const cart = {
             } catch (e) {
                 console.log(e);
             }
+        }
+    }),
+    clearCart: defineAction({
+        handler: async(_, context) => {
+            const user = await context.session?.get('user');
+            await User.user.findOneAndUpdate({_id: user._id}, {
+                $set: {cart: []}
+            });
+            context.session?.set('alert', {status: 'success', text: 'Transaction has successfully been paid!'});
+            user.cart.length = 0;
+
         }
     }),
 };
