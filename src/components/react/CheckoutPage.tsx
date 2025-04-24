@@ -9,10 +9,17 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
     const [total, setTotal] = useState(0);
     const [address, setAddress] = useState('');
     const checkout = async() => {
-        if (address === '') return;
-       const {data} = await actions.cart.checkoutCart({
+        if (total === 0) return;
+        if (address === '') {
+            alert('Insert your address to continue.');
+            document.getElementById('address')?.focus();
+            return;
+        }
+
+        const transactionId = (await actions.transaction.createTransaction({id: user._id, total: total + (total * 0.04)})).data;
+        const {data} = await actions.cart.checkoutCart({
             transaction_details: {
-                order_id: `CB-001-013`,
+                order_id: `CB-${transactionId}`,
                 gross_amount: total + (total * 0.04)
             }, 
             customer_details: {
@@ -25,10 +32,24 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
             }
         });
         try {
-            window.snap.pay(data);
+            window.snap.pay(data, {
+                language: 'en',
+                onSuccess: async() => {
+                    Promise.allSettled([
+                        actions.cart.clearCart(),
+                        actions.transaction.successTransaction({id: transactionId!})
+                    ]).finally(() => {
+                        window.location.reload();
+                    });
+                },
+                onClose: async() => {
+                    await actions.transaction.removeTransaction(transactionId);
+                    alert('Transaction has been cancelled.')
+                }
+            });
         } catch (e) {
-            console.log(e)
-            alert('Terjadi kesalahan.');
+            await actions.transaction.removeTransaction(transactionId);
+            alert('Something is wrong. Please, try again later.');
         }
     }   
     return (
@@ -49,13 +70,13 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                     <p id="user-name" className="border p-3 rounded bg-gray-50 dark:bg-gray-800 text-sm">{user.fullName}</p>
                 </div>
                 <div className="mb-4">
-                    <label className="ps-1 text-xs" htmlFor="user-name">Address</label>
-                    <textarea className="textarea rounded bg-gray-50 dark:bg-gray-800 dark:textarea-warning textarea-accent max-h-32" placeholder="Your address here" value={address} onChange={(e) => {setAddress(e.target.value)}} />
+                    <label className="ps-1 text-xs" htmlFor="address">Address</label>
+                    <textarea id="address" className="textarea rounded bg-gray-50 dark:bg-gray-800 dark:textarea-warning textarea-accent max-h-32" placeholder="Your address here" value={address} onChange={(e) => {setAddress(e.target.value)}} />
                 </div>
                 <CheckoutInfo title="Subtotal :">Rp. {total.toLocaleString('id-ID')}</CheckoutInfo>
                 <CheckoutInfo title="Tax 4%">Rp. {(total * 0.04).toLocaleString('id-ID')}</CheckoutInfo>
                 <CheckoutInfo title="Total :" isBold={true} >Rp. {(total + (total * 0.04)).toLocaleString('id-ID')}</CheckoutInfo>
-                <button className="btn btn-lg py-8 btn-secondary dark:btn-primary mt-auto" onClick={checkout}>Checkout</button>
+                <button className="btn btn-lg py-8 btn-secondary dark:btn-primary mt-auto" disabled={total === 0} onClick={checkout}>Checkout</button>
             </div>
         </>
     )

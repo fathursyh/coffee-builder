@@ -1,7 +1,16 @@
-import { useRef } from "react"
+import { actions } from "astro:actions";
+import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom";
 
 const HistoryList = () => {
+    const [history, setHistory] = useState<{_id: string, total: number, createdAt: Date}[]>([]);
+    const getHistory = async() => {
+        const { data } = await actions.transaction.getAllUserTransaction();
+        setHistory([...data!]);
+    }
+    useEffect(() => {
+        getHistory();
+    }, []);
     return (
         <>
             <div className="modal-box">
@@ -12,10 +21,15 @@ const HistoryList = () => {
                         <span>Transaction</span>
                     </div>
                     <ul className="divide-y space-y-2">
-                        <li className="flex justify-between px-8 mb-2">
-                            <span>20/12/25</span>
-                            <span>Rp. 502.000</span>
-                        </li>
+                        {
+                            history.map(item => (
+                            <li className="flex justify-between px-8 mb-2" key={item._id}>
+                                <span>{item.createdAt.toLocaleDateString('id-ID')}</span>
+                                <span>Rp. {item.total.toLocaleString('id-ID')}</span>
+                            </li>
+
+                            ))
+                        }
                     </ul>
                 </div>
             </div>
