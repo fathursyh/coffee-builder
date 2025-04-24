@@ -9,6 +9,16 @@ export default class TransactionModel {
                 ref: "User",
             },
             total: Number,
+            itemDetails: [
+                {
+                    itemId: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'Products'
+                    },
+                    price: Number,
+                    quantity: Number
+                }
+            ],
             status: {
                 type: String,
                 enum: ["success", "pending", "failed"],
@@ -26,9 +36,10 @@ export default class TransactionModel {
         this.transaction = mongoose.model("Transaction", this.transactionSchema);
     }
 
-    public async newTransaction(id: string, total: number) {
+    public async newTransaction(id: string, total: number, itemDetails: any) {
+        console.log(itemDetails);
         try {
-            return await this.transaction.create({userId: new Types.ObjectId(id), total: total});
+            return await this.transaction.create({userId: new Types.ObjectId(id), total: total, itemDetails: itemDetails});
         } catch (e) {
             console.log(e);
             return null;
