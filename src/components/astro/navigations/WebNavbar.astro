@@ -2,6 +2,7 @@
 import PurchaseHistory from "src/components/react/PurchaseHistory";
 import SearchBar from "src/components/react/SearchBar";
 import ThemeToggler from "src/components/react/ThemeToggler";
+import DrawerNav from "./DrawerNav.astro";
 const user = await Astro.session?.get("user");
 ---
 
@@ -16,8 +17,9 @@ const user = await Astro.session?.get("user");
     </div>
     {/* search product */}
     <SearchBar client:idle />
+    <DrawerNav user={user} />
     {/* nav menu */}
-    <ul class="menu menu-horizontal md:gap-4 px-1 text-sm z-40">
+    <ul class="menu menu-horizontal md:gap-4 px-1 text-sm z-40 hidden md:flex">
       <li><a href="/">Home</a></li>
       <li><a href="/products">Products</a></li>
       {
