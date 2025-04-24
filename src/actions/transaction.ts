@@ -4,6 +4,11 @@ import TransactionModel from "src/database/transactionModel";
 
 const Transaction = new TransactionModel();
 export const transaction = {
+    coldStartTransaction: defineAction({
+        handler: () => {
+            console.log(Transaction);
+        }
+    }),
     getAllUserTransaction: defineAction({
         handler: async(_, context) => {
             const user = await context.session?.get('user');
