@@ -4,6 +4,11 @@ import CartSection from "src/components/astro/cart/CartSection.astro";
 import Layout from "src/layouts/Layout.astro";
 Astro.callAction(actions.transaction.coldStartTransaction, {});
 ---
+<script
+      is:inline
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-y8J5Es9qjuguWtE7">
+</script>
 
 <Layout>
     <main style="background-image: url(/detail.png);" class="bg-black/50 bg-blend-multiply">

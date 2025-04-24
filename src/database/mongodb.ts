@@ -2,9 +2,8 @@ import mongoose from "mongoose";
 
 class MongoDB {
   private uri: string = `mongodb+srv://fathursyh:${import.meta.env.DB_PASS}@cluster.tgrpl.mongodb.net/coffee-builder?retryWrites=true&w=majority&appName=Clusters`;
-  private isConnected = false;
+  public isConnected = false;
   public async open() {
-    if (!this.isConnected) {
       try {
         await mongoose.connect(this.uri);
         await mongoose.connection.db?.admin().command({ ping: 1 });
@@ -13,7 +12,6 @@ class MongoDB {
       } catch (e) {
         console.error(e);
       } 
-    }
   }
 }
 

@@ -4,7 +4,9 @@ import WebNavbar from "../components/astro/navigations/WebNavbar.astro";
 import { db } from "../database/mongodb";
 import "../styles/global.css";
 import FloatingCart from "src/components/react/FloatingCart";
-db.open();
+if (!db.isConnected) {
+  db.open();
+}
 const IsAlert = await Astro.session?.get("alert");
 ---
 
@@ -17,10 +19,7 @@ const IsAlert = await Astro.session?.get("alert");
     <meta name="generator" content={Astro.generator} />
     <title>Coffee Builder</title>
     <script src="/js/load.js" is:inline></script>
-    <script
-      is:inline
-      src="https://app.sandbox.midtrans.com/snap/snap.js"
-      data-client-key="SB-Mid-client-y8J5Es9qjuguWtE7"></script>
+    
   </head>
   <body>
     <WebNavbar />
