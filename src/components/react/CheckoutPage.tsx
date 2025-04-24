@@ -8,6 +8,7 @@ import { actions } from "astro:actions";
 export default function CheckoutPage({ data, user }: { data: ProductInterface[], user: UserInterface }) {
     const [total, setTotal] = useState(0);
     const [address, setAddress] = useState('');
+    const [isloading, setIsLoading] = useState(false);
 
     const checkout = async() => {
         if (total === 0) return;
@@ -16,7 +17,7 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
             document.getElementById('address')?.focus();
             return;
         }
-        
+        setIsLoading(true);
         const itemDetails = JSON.parse(sessionStorage.getItem('cart')!);
         const transactionId = (await actions.transaction.createTransaction({id: user._id, total: total + (total * 0.04), itemDetails: itemDetails})).data;
         const {data} = await actions.cart.checkoutCart({
@@ -58,6 +59,8 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
         } catch (e) {
             await actions.transaction.removeTransaction(transactionId);
             alert('Something is wrong. Please, try again later.');
+        } finally {
+            setIsLoading(false);
         }
     }   
     return (
@@ -84,7 +87,7 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                 <CheckoutInfo title="Subtotal :">Rp. {total.toLocaleString('id-ID')}</CheckoutInfo>
                 <CheckoutInfo title="Tax 4%">Rp. {(total * 0.04).toLocaleString('id-ID')}</CheckoutInfo>
                 <CheckoutInfo title="Total :" isBold={true} >Rp. {(total + (total * 0.04)).toLocaleString('id-ID')}</CheckoutInfo>
-                <button className="btn btn-lg py-8 btn-secondary dark:btn-primary mt-auto" disabled={total === 0} onClick={checkout}>Checkout</button>
+                <button className="btn btn-lg py-8 btn-secondary dark:btn-primary mt-auto" disabled={total === 0 || isloading} onClick={checkout}>Checkout</button>
             </div>
         </>
     )

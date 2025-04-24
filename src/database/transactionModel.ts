@@ -37,7 +37,6 @@ export default class TransactionModel {
     }
 
     public async newTransaction(id: string, total: number, itemDetails: any) {
-        console.log(itemDetails);
         try {
             return await this.transaction.create({userId: new Types.ObjectId(id), total: total, itemDetails: itemDetails});
         } catch (e) {
