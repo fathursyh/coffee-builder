@@ -30,7 +30,7 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem, cha
         <tr>
             <th>{index + 1}</th>
             <td>{title}</td>
-            <td className="flex gap-2 w-20 justify-center">
+            <td className="flex md:gap-2 md:w-20 w-14 justify-center">
                 <button
                     className={`btn btn-circle btn-ghost btn-xs ${qty < 2 && "invisible"}`}
                     onClick={() => {
@@ -93,7 +93,7 @@ export default function CartTable(props: { data: ProductInterface[]; setTotal: F
                 <thead className="table-header-group">
                     <tr>
                         <th className="w-[8%]">No</th>
-                        <th className="md:w-[45%] w-[35%]">Product Name</th>
+                        <th className="md:w-[45%] w-[32%]">Product Name</th>
                         <th>Qty</th>
                         <th>Price</th>
                         <th>Total</th>

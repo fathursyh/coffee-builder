@@ -34,10 +34,10 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                 }
             },
             item_details: [...itemDetails, {
-                id: 'tax',
+                id: 'tx-4',
                 price: (total * 0.04),
                 quantity : 1,
-                name: 'tax'
+                name: 'tax (4%)'
             }]
         });
         try {

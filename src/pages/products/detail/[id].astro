@@ -10,11 +10,11 @@ const {title, stock, price, description} = data!;
 ---
 <Layout>
     <div class="h-[92dvh] grid place-items-center w-full mx-auto bg-black/50 bg-blend-multiply" style="background-image: url(/detail.png);">
-        <section class="bg-gray-50 dark:bg-gray-800 rounded-lg min-h-1/2 p-6 px-8 border w-96 shadow-lg flex flex-col gap-2 justify-center">
+        <section class="bg-gray-50 dark:bg-gray-800 rounded-lg min-h-1/2 pt-8 pb-12 px-8 border md:w-96 w-[22rem] shadow-lg flex flex-col gap-2 justify-center">
             <h3 class="text-xl pb-4 border-b text-center">{title}</h3>
             <p class:list={["text-center font-medium text-sm mb-2", stock! > 0 ? 'text-success' : 'text-error']}>{stock! > 0 ? 'Available' : 'Out of stock.'}</p>
             <p class="text-base-content/70 line-clamp-3">{description}</p>
-            <div class="flex justify-between translate-y-6 mt-4">
+            <div class="flex justify-between translate-y-4 items-end">
                 <span class="text-lg text-success font-semibold">{Utility.currency(price || 0)}</span>
                 <BuyButton client:idle id_item={id!} stock={stock!} />
             </div>
