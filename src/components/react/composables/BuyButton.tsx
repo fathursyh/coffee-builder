@@ -5,7 +5,6 @@ export default function BuyButton(props: {stock: number, id_item: string}) {
             if (props.stock < 0) {
                 return;
             }
-            console.log(props.id_item);
             const {data} = await actions.cart.addItem({id: props.id_item});
             if (!data) {
                 window.location.href = '/login';
