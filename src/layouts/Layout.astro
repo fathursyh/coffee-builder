@@ -22,12 +22,14 @@ const IsAlert = await Astro.session?.get("alert");
     
   </head>
   <body>
-    <WebNavbar />
+    <WebNavbar server:defer>
+      <nav class="h-14" slot="fallback"></nav>
+    </WebNavbar>
     <slot />
     {IsAlert && <CustomAlert client:load {...IsAlert} />}
     {
       (await Astro.session?.has("user")) && Astro.originPathname !== "/cart" ? (
-        <FloatingCart client:only="react" />
+        <FloatingCart client:visible />
       ) : null
     }
   </body>

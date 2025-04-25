@@ -41,7 +41,7 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
             }]
         });
         try {
-            window.snap.pay(data, {
+            await window.snap.pay(data, {
                 language: 'en',
                 onSuccess: async() => {
                     Promise.allSettled([
@@ -52,12 +52,12 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                     });
                 },
                 onClose: async() => {
-                    await actions.transaction.removeTransaction(transactionId);
+                    actions.transaction.removeTransaction(transactionId);
                     alert('Transaction has been cancelled.')
                 }
             });
         } catch (e) {
-            await actions.transaction.removeTransaction(transactionId);
+            actions.transaction.removeTransaction(transactionId);
             alert('Something is wrong. Please, try again later.');
         } finally {
             setIsLoading(false);

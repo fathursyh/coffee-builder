@@ -2,6 +2,7 @@
 import HomeHero from "src/components/astro/home/HomeHero.astro"
 import Layout from "src/layouts/Layout.astro"
 
+Astro.response.headers.set("Cache-Control", "public, max-age=300, s-maxage=3600");
 ---
 
 <Layout>

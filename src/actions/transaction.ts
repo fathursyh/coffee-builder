@@ -1,12 +1,14 @@
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import TransactionModel from "src/database/transactionModel";
+import { midtrans } from "src/lib/midtrans";
 
 const Transaction = new TransactionModel();
 export const transaction = {
     coldStartTransaction: defineAction({
         handler: () => {
             console.log(Transaction);
+            console.log(midtrans);
         }
     }),
     getAllUserTransaction: defineAction({
