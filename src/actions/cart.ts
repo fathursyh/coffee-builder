@@ -49,7 +49,7 @@ export const cart = {
             const user = await context.session?.get('user');
             user.cart.splice(user.cart.findIndex((item : string) => item === input), 1);
             try {
-                User.user.updateOne({_id: user._id}, {$pull: {cart: {$eq: input}}});
+                await User.user.updateOne({_id: user._id}, {$pull: {cart: {$eq: input}}});
                 context.session?.set('alert', {status: 'success', text: 'Item has been removed from your cart!'});
             } catch (e) {
                 throw new ActionError({code: 'INTERNAL_SERVER_ERROR'});
