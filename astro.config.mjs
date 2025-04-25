@@ -13,7 +13,7 @@ export default defineConfig({
       plugins: [tailwindcss()],
       appType: 'custom',
   },
-
+  prefetch: {prefetchAll: true, defaultStrategy: 'hover'},
   trailingSlash: 'ignore',
   integrations: [react()],
   security: {checkOrigin: true},
