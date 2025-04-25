@@ -10,9 +10,10 @@ export default function CustomAlert({status, text}: AlertProps) {
     useEffect(() => {
         actions.clearAlert();
         setVisible(true);
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
             setVisible(false);
         }, 3000);
+        return clearTimeout(timeout)
     }, [])
     return (
         <div role="alert" className={`alert ${status === 'success' ? 'alert-success' : 'alert-error'} alert-soft fixed z-50 ${visible ? 'top-0' : '-top-20'} w-full rounded-none justify-center py-6 transition-all duration-300`}>
