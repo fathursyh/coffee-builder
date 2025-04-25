@@ -1,9 +1,7 @@
 ---
 export const prerender = true;
-import { actions } from "astro:actions";
 import CartSection from "src/components/astro/cart/CartSection.astro";
 import Layout from "src/layouts/Layout.astro";
-Astro.callAction(actions.transaction.coldStartTransaction, {});
 ---
 <script
       is:inline
