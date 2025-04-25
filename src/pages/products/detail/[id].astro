@@ -2,9 +2,7 @@
 import DetailProduct from "src/components/astro/products/DetailProduct.astro";
 import Layout from "src/layouts/Layout.astro";
 const {id} = Astro.params;
-Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
-Astro.response.headers.set("netlify-cdn-cache-control", "s-maxage=31536000");
-Astro.response.headers.set("netlify-cache-tag", id!);
+
 ---
 <Layout>
     <div class="h-[92dvh] grid place-items-center w-full mx-auto bg-black/50 bg-blend-multiply" style="background-image: url(/detail.png);">

@@ -22,7 +22,7 @@ export default defineConfig({
     '/products': '/products/1'
   },
 
-  adapter: netlify(),
+  adapter: netlify({imageCDN: true}),
   experimental: {
     session: true,
   }

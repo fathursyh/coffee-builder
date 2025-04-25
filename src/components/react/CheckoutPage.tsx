@@ -37,7 +37,7 @@ export default function CheckoutPage({ data, user }: { data: ProductInterface[],
                 id: 'tx-4',
                 price: (total * 0.04),
                 quantity : 1,
-                name: 'tax (4%)'
+                name: 'Additional taxes (4%)'
             }]
         });
         try {

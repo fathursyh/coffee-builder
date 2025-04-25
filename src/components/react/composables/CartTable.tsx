@@ -30,7 +30,7 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem, cha
         <tr>
             <th>{index + 1}</th>
             <td>{title}</td>
-            <td className="flex md:gap-2 md:w-20 w-14 justify-center">
+            <td className="flex md:gap-2 gap-1 md:w-20 w-14 justify-center">
                 <button
                     className={`btn btn-circle btn-ghost btn-xs ${qty < 2 && "invisible"}`}
                     onClick={() => {
@@ -41,7 +41,10 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem, cha
                         changeQuantity(_id, (qty - 1));
                     }}
                 >
-                    &#11164;
+                    <svg className="w-5 h-5 text-error" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+</svg>
+
                 </button>
                 <button className="bg-gray-50 dark:bg-gray-800 rounded-sm btn btn-ghost btn-xs w-8 hover:bg-error" onClick={() => {
                     removeItem(_id.toString());
@@ -55,7 +58,10 @@ function TableRow({ data: { _id, title, price, stock }, index, getTotalItem, cha
                         }
                     }}
                 >
-                    &#11166;
+                    <svg className="w-5 h-5 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
                 </button>
             </td>
             <td>{price.toLocaleString("id-ID")}</td>
