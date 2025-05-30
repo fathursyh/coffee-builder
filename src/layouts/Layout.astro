@@ -5,7 +5,7 @@ import { db } from "../database/mongodb";
 import "../styles/global.css";
 import FloatingCart from "src/components/react/FloatingCart";
 if (!db.isConnected) {
-  db.open();
+  await db.open();
 }
 const IsAlert = await Astro.session?.get("alert");
 ---

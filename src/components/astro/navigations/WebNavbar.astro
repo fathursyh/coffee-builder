@@ -37,7 +37,7 @@ const user = await Astro.session?.get("user");
           </li>
         ) : (
           <li>
-            <a href="/login">Login</a>
+            <a href="/login" data-astro-prefetch>Login</a>
           </li>
         )
       }

@@ -13,7 +13,7 @@ export default defineConfig({
       plugins: [tailwindcss()],
       appType: 'custom',
   },
-  prefetch: {prefetchAll: true, defaultStrategy: 'hover'},
+  prefetch: {prefetchAll: true},
   trailingSlash: 'ignore',
   integrations: [react()],
   security: {checkOrigin: true},
@@ -22,7 +22,7 @@ export default defineConfig({
     '/products': '/products/1'
   },
 
-  adapter: netlify({imageCDN: true}),
+  adapter: netlify(),
   experimental: {
     session: true,
   }
